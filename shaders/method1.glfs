@@ -1,0 +1,41 @@
+
+#ifdef GL_ES
+precision highp float;
+#endif
+
+uniform vec4 uLens;
+uniform vec2 uFov;
+
+uniform sampler2D uSampler;
+
+varying vec3 vPosition;
+varying vec2 vTextureCoord;
+
+vec2 TextureCoord2GLCoord(vec2 textureCoord) {
+	return (textureCoord - vec2(0.5, 0.5)) * 2.0;
+}
+vec2 GLCoord2TextureCoord(vec2 glCoord) {
+	return glCoord / 2.0 + vec2(0.5, 0.5);
+}
+
+void main(void){
+	vec2 vMapping = vec2(vTextureCoord.x, 1.0 - vTextureCoord.y);
+	vMapping = TextureCoord2GLCoord(vMapping);
+
+	//TODO insert Code
+	float F = uLens.x/ uLens.w;
+
+	float seta = length(vMapping) / F;
+
+	vMapping = sin(seta) * F / length(vMapping) * vMapping;
+
+	vMapping *= uLens.w * 1.414;
+
+	vMapping = GLCoord2TextureCoord(vMapping);
+
+	vec4 texture = texture2D(uSampler, vMapping);
+	if(vMapping.x > 0.99 || vMapping.x < 0.01 || vMapping.y > 0.99 || vMapping.y < 0.01){
+		texture = vec4(0.0, 0.0, 0.0, 1.0);
+	} 
+	gl_FragColor = texture;
+}

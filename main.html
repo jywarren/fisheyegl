@@ -24,19 +24,42 @@
 			<dt>fps</dt>
 			<dd><span id="fps"></span></dd>
 			<dt>F</dt>
-			<dd><input id="F" type="range" min="0.0" max="4.0" value="1.0" step="0.01"/></dd>
+			<dd>
+				<input id="F" type="range" min="0.0" max="4.0" value="1.0" step="0.01"/>
+				<span id="F_label"></span>
+			</dd>
 			<dt>a</dt>
-			<dd><input id="a" type="range" min="0.0" max="4.0" value="1.0" step="0.001"/></dd>
+			<dd>
+				<input id="a" type="range" min="0.0" max="4.0" value="1.0" step="0.001"/>
+				<span id="a_label"></span>
+			</dd>
 			<dt>b</dt>
-			<dd><input id="b" type="range" min="0.0" max="4.0" value="1.0" step="0.001"/></dd>
+			<dd>
+				<input id="b" type="range" min="0.0" max="4.0" value="1.0" step="0.001"/>
+				<span id="b_label"></span>
+			</dd>
 			<dt>scale</dt>
-			<dd><input id="scale" type="range" min="0.0" max="20.0" value="1.0" step="0.001"/></dd>
+			<dd>
+				<input id="scale" type="range" min="0.0" max="20.0" value="1.0" step="0.001"/>
+				<span id="scale_label"></span>
+			</dd>
+			<!--
 			<dt>fov x</dt>
 			<dd><input id="fovx" type="range" min="0.0" max="2.0" value="1.0" step="0.001"/></dd>
 			<dt>fov y</dt>
 			<dd><input id="fovy" type="range" min="0.0" max="2.0" value="1.0" step="0.001"/></dd>
+			-->
+			<dt>image</dt>
+			<dd>
+				<select id="image">
+					<option value="0">1</option>
+					<option value="1">2</option>
+					<option value="2">3</option>
+					<option value="3">4</option>
+				</select>
+			</dd>
 		</dl>
-		<script src="/javascripts/lib.js"></script>
-		<script src="/javascripts/main.js"></script>
+		<script src="javascripts/lib.js"></script>
+		<script src="javascripts/main.js"></script>
 	</body>
 </html>

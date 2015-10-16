@@ -1,10 +1,10 @@
 (function(global){
 	var model = {
 		vertex :[
-			-1.0, -1.0, -1.0,
-			 1.0, -1.0, -1.0,
-			 1.0,  1.0, -1.0,
-			-1.0,  1.0, -1.0
+			-1.0, -1.0, 0.0,
+			 1.0, -1.0, 0.0,
+			 1.0,  1.0, 0.0,
+			-1.0,  1.0, 0.0
 		],
 		indices :[
 			0, 1, 2,
@@ -21,20 +21,23 @@
 	};
 
 	var lens = [
-		1.0, //F
 		1.0, //a
 		1.0, //b
+		1.0, //F
 		1.5  //scale
 	];
 	var fov = {
 		x : 1.0,
 		y : 1.0
 	}
+	var images = [
+		"images/test2.jpg", "images/test3.jpg", "images/test4.jpg", "images/test5.jpg"
+	]
 	
 	var gl = glu.getGLContext("#screen");
 
-	var vertexSrc = glu.loadFile("/shaders/vertex.glvs");
-	var fragmentSrc = glu.loadFile("/shaders/fragment.glfs");
+	var vertexSrc = glu.loadFile("shaders/vertex.glvs");
+	var fragmentSrc = glu.loadFile("shaders/fragment.glfs");
 
 	var program = glu.compileShader(gl, vertexSrc, fragmentSrc)
 	gl.useProgram(program);
@@ -62,12 +65,21 @@
 
 	gl.viewport(0, 0, 800, 600);
 
-	var texture = glu.loadTexture(gl, "/images/test.jpg");
+	var textures = images.map(function(name){
+		return glu.loadTexture(gl, name);
+	});
+	
+	var texture = textures[0];
 
 
 	var $fps = document.querySelector("#fps");
+	var count = 0;
 	glu.run(function(dt){
-		$fps.innerHTML = parseInt(10000/dt) / 10;
+		if(count++ > 10){
+			$fps.innerHTML = parseInt(10000/dt) / 10 + " - " + parseInt(dt*10)/10 + "ms/frame";
+			console.log($fps.innerHTML);
+			count = 0;
+		}
 		
 		gl.clearColor(0.0, 0.0, 0.0, 1.0);
 		gl.enable(gl.DEPTH_TEST);
@@ -100,19 +112,22 @@
 	}
 
 	$("dl").addEventListener("change", function(e){
-		lens[0] = $("#F").value;
-		lens[1] = $("#a").value;
-		lens[2] = $("#b").value;
-		lens[3] = $("#scale").value;
+
+		lens[0] = $("#a_label").innerHTML = $("#a").value;
+		lens[1] = $("#b_label").innerHTML = $("#b").value;
+		lens[2] = $("#F_label").innerHTML = $("#F").value;
+		lens[3] = $("#scale_label").innerHTML = $("#scale").value;
+		texture = textures[$("#image").value];
 		fov.x = $("#fovx").value;
 		fov.y = $("#fovy").value;
 	});
 
-	$("#F").value = lens[0];
-	$("#a").value = lens[1];
-	$("#b").value = lens[2];
-	$("#scale").value = lens[3];
+
+	$("#a").value = $("#a_label").innerHTML = lens[0];
+	$("#b").value = $("#b_label").innerHTML = lens[1];
+	$("#F").value = $("#F_label").innerHTML = lens[2];
+	$("#scale").value = $("#scale_label").innerHTML = lens[3];
+	$("#image").value = 0;
 	$("#fovx").value = fov.x;
 	$("#fovy").value = fov.y;
-
 })(this);
