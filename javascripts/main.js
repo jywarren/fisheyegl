@@ -31,7 +31,7 @@
 		y : 1.0
 	}
 	var images = [
-		"images/test2.jpg", "images/test3.jpg", "images/test4.jpg", "images/test5.jpg"
+		"images/barrel-distortion.png", "images/test2.jpg", "images/test3.jpg", "images/test4.jpg", "images/test5.jpg"
 	]
 	
 	var gl = glu.getGLContext("#screen");
