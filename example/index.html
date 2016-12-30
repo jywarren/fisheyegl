@@ -1,52 +1,53 @@
 <html>
-	<head>
-		<title></title>
-		<style>
-			body {
-				background :black;
-			}
-			canvas {
-				float : left;
-				border : 2px solid blue;
-			}
-			dl {
-				margin-left : 820px;
-				color : white;
-			}
-			dl input {
-				width : 300px;
-			}
-		</style>
-	</head>
-	<body>
-		<canvas width="800" height="600" id="canvas"></canvas>
-		<dl>
-			<dt>F</dt>
-			<dd>
-				<input id="F" type="range" min="0.0" max="4.0" value="1.0" step="0.01"/>
-				<span id="F_label"></span>
-			</dd>
-			<dt>a</dt>
-			<dd>
-				<input id="a" type="range" min="0.0" max="4.0" value="1.0" step="0.001"/>
-				<span id="a_label"></span>
-			</dd>
-			<dt>b</dt>
-			<dd>
-				<input id="b" type="range" min="0.0" max="4.0" value="1.0" step="0.001"/>
-				<span id="b_label"></span>
-			</dd>
-			<dt>scale</dt>
-			<dd>
-				<input id="scale" type="range" min="0.0" max="20.0" value="1.0" step="0.001"/>
-				<span id="scale_label"></span>
-			</dd>
-			<dt>fov x</dt>
-			<dd><input id="fovx" type="range" min="0.0" max="2.0" value="1.0" step="0.001"/></dd>
-			<dt>fov y</dt>
-			<dd><input id="fovy" type="range" min="0.0" max="2.0" value="1.0" step="0.001"/></dd>
-		</dl>
-		<script src="../dist/fisheyegl.js"></script>
-		<script src="main.js"></script>
-	</body>
+  <head>
+    <title>FisheyeGl Demo</title>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <style>
+      body {
+        background :black;
+      }
+      canvas {
+        float : left;
+        border : 2px solid blue;
+      }
+      dl {
+        margin-left : 820px;
+        color : white;
+      }
+      dl input {
+        width : 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas width="800" height="600" id="canvas"></canvas>
+    <dl>
+      <dt>F</dt>
+      <dd>
+        <input id="F" type="range" min="0.0" max="4.0" value="1.0" step="0.01"/>
+        <span id="F_label"></span>
+      </dd>
+      <dt>a</dt>
+      <dd>
+        <input id="a" type="range" min="0.0" max="4.0" value="1.0" step="0.001"/>
+        <span id="a_label"></span>
+      </dd>
+      <dt>b</dt>
+      <dd>
+        <input id="b" type="range" min="0.0" max="4.0" value="1.0" step="0.001"/>
+        <span id="b_label"></span>
+      </dd>
+      <dt>scale</dt>
+      <dd>
+        <input id="scale" type="range" min="0.0" max="20.0" value="1.0" step="0.001"/>
+        <span id="scale_label"></span>
+      </dd>
+      <dt>fov x</dt>
+      <dd><input id="fovx" type="range" min="0.0" max="2.0" value="1.0" step="0.001"/></dd>
+      <dt>fov y</dt>
+      <dd><input id="fovy" type="range" min="0.0" max="2.0" value="1.0" step="0.001"/></dd>
+    </dl>
+    <script src="../dist/fisheyegl.js"></script>
+    <script src="main.js"></script>
+  </body>
 </html>
