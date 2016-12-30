@@ -17,14 +17,14 @@ var distorter = FisheyeGl({
   image: 'path/to/image.jpg',
   selector: '#canvas', // your canvas element
   lens: {
-    a: $("#a").value,    // 0 to 4;  default 1
-    b: $("#a").value,    // 0 to 4;  default 1
-    F: $("#a").value,    // 0 to 4;  default 1
-    scale: $("#a").value // 0 to 20; default 1.5
+    a: 1,    // 0 to 4;  default 1
+    b: 1,    // 0 to 4;  default 1
+    F: 1,    // 0 to 4;  default 1
+    scale: 1.5 // 0 to 20; default 1.5
   },
   fov: {
-    x: $("#fovx").value, // 0 to 2; default 1
-    y: $("#fovy").value  // 0 to 2; default 1
+    x: 1, // 0 to 2; default 1
+    y: 1  // 0 to 2; default 1
   },
   fragmentSrc: "../shaders/fragment.glfs", // these are provided in the /shaders/ directory
   vertexSrc:   "../shaders/vertex.glvs"
