@@ -1,0 +1,288 @@
+(function(exports){
+
+  if (typeof module === 'undefined')
+    exports = FisheyeGl;
+  else 
+    module.exports = FisheyeGl;
+
+})(typeof exports === 'undefined'? this['FisheyeGl']={}: exports);
+
+var FisheyeGl = function FisheyeGl(options){
+
+  // Defaults:
+  options = options || {};
+  var model = options.model || {
+    vertex :[
+      -1.0, -1.0, 0.0,
+       1.0, -1.0, 0.0,
+       1.0,  1.0, 0.0,
+      -1.0,  1.0, 0.0
+    ],
+    indices :[
+      0, 1, 2,
+      0, 2, 3,
+      2, 1, 0,
+      3, 2, 0
+    ],
+    textureCoords : [
+      0.0, 0.0,
+      1.0, 0.0,
+      1.0, 1.0,
+      0.0, 1.0
+    ]
+  };
+
+  var lens = options.lens || {
+    a : 1.0,
+    b : 1.0,
+    F : 1.0,
+    scale : 1.5
+  };
+  var fov = options.fov || {
+    x : 1.0,
+    y : 1.0
+  }
+  var image = options.image || "images/barrel-distortion.png";
+
+  var selector = "#canvas" || options.selector;
+  var gl = getGLContext(selector);
+
+  var vertexSrc = loadFile(options.vertexSrc || "../shaders/vertex.glvs");
+  var fragmentSrc = loadFile(options.fragmentSrc || "../shaders/fragment.glfs");
+
+  var program = compileShader(gl, vertexSrc, fragmentSrc)
+  gl.useProgram(program);
+
+  var aVertexPosition = gl.getAttribLocation(program, "aVertexPosition");
+  var aTextureCoord = gl.getAttribLocation(program, "aTextureCoord");
+  var uSampler = gl.getUniformLocation(program, "uSampler");
+  var uLens = gl.getUniformLocation(program, "uLens");
+  var uFov = gl.getUniformLocation(program, "uFov");
+
+  var vertexBuffer,
+      indexBuffer,
+      textureBuffer;
+
+  function createBuffers() {
+
+    vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.vertex), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+    indexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(model.indices), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+
+    textureBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, textureBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.textureCoords), gl.STATIC_DRAW);
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+  }
+
+  createBuffers();
+
+  function getGLContext(selector){
+    var canvas = document.querySelector(selector);
+
+    if(canvas == null){
+      throw new Error("there is no canvas on this page");
+    }
+
+    var names = ["webgl", "experimental-webgl", "webkit-3d", "moz-webgl"];
+    for (var i = 0; i < names.length; ++i) {
+      var gl;
+      try {
+        gl = canvas.getContext(names[i]);
+      } catch(e) {
+        continue;
+      }
+      if (gl) return gl;
+    }
+
+    throw new Error("WebGL is not supported!");
+  }
+
+  function compileShader(gl, vertexSrc, fragmentSrc){
+    var vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vertexShader, vertexSrc);
+    gl.compileShader(vertexShader);
+
+    _checkCompile(vertexShader);
+
+    var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fragmentShader, fragmentSrc);
+    gl.compileShader(fragmentShader);
+
+    _checkCompile(fragmentShader);
+
+    var program = gl.createProgram();
+
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+
+    gl.linkProgram(program);
+
+    return program;
+
+    function _checkCompile(shader){
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        throw new Error(gl.getShaderInfoLog(shader));
+      }
+    }
+  }
+
+  function loadFile(url, callback){
+    var ajax = new XMLHttpRequest();
+
+    if(callback) {
+      ajax.addEventListener("readystatechange", on)
+      ajax.open("GET", url, true);
+      ajax.send(null);
+    } else {
+      ajax.open("GET", url, false);
+      ajax.send(null);
+
+      if(ajax.status == 200){
+        return ajax.responseText;
+      }
+    }
+
+    function on(){
+      if(ajax.readyState === 4){
+        //complete requset
+        if(ajax.status === 200){
+          //not error
+          callback(null, ajax.responseText);
+        } else {
+          callback(new Error("fail to load!"));
+        }
+      }
+    }
+  }
+
+  function loadImage(gl, img, callback, texture){
+    texture = texture || gl.createTexture();
+
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); //gl.NEAREST is also allowed, instead of gl.LINEAR, as neither mipmap.
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); //Prevents s-coordinate wrapping (repeating).
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); //Prevents t-coordinate wrapping (repeating).
+    //gl.generateMipmap(gl.TEXTURE_2D);
+    gl.bindTexture(gl.TEXTURE_2D, null);
+
+    if(callback) callback(null, texture);
+    return texture;
+  }
+
+  function loadImageFromUrl(gl, url, callback){
+    var texture = gl.createTexture();
+    var img = new Image();
+    img.addEventListener("load", function onload(){
+      loadImage(gl, img, callback, texture);
+    });
+    img.src = url;
+    return texture;
+  }
+
+  function run(animate){
+    var f = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+      window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+    // ugh
+    if(animate === true){
+      if(f){
+        f(on);
+      } else {
+        throw new Error("do not support 'requestAnimationFram'");
+      }
+    } else {
+      f(on);
+    }
+
+    var current = null;
+    function on(t){
+      if(!current) current = t;
+      var dt = t - current;
+      current = t;
+      options.runner(dt);
+      if (animate === true) f(on);
+    }
+  }
+
+  gl.viewport(
+    0,
+    0,
+    options.width || 800,
+    options.height || 600
+  );
+
+  options.runner = options.runner|| function runner(dt){
+    
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.enable(gl.DEPTH_TEST);
+
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    
+    gl.enableVertexAttribArray(aVertexPosition);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.vertexAttribPointer(aVertexPosition, 3, gl.FLOAT, false, 0, 0);
+
+    gl.enableVertexAttribArray(aTextureCoord);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, textureBuffer);
+    gl.vertexAttribPointer(aTextureCoord, 2, gl.FLOAT, false, 0, 0);
+
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.uniform1i(uSampler, 0);
+
+    gl.uniform4fv(uLens, [lens.a, lens.b, lens.F, lens.scale]);
+    gl.uniform2fv(uFov, [fov.x, fov.y]);
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+    gl.drawElements(gl.TRIANGLES, model.indices.length, gl.UNSIGNED_SHORT, 0);
+  }
+
+  var texture;
+
+  function setImage(imageUrl) {
+    texture = loadImageFromUrl(gl, imageUrl, function onImageLoad() {
+
+      run(options.animate);
+
+    });
+  }
+
+  setImage(image);
+
+  function getImage() {
+
+    var image = new Image();
+    image.src = gl.canvas.toDataURL('image/png');
+
+    return image;
+
+  }
+
+  // external API:
+  var distorter = {
+    options:  options,
+    gl:       gl,
+    lens:     lens,
+    fov:      fov,
+    run:      run,
+    getImage: getImage,
+    setImage: setImage
+  }
+
+  return distorter;
+
+}
