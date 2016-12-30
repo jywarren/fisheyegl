@@ -1,13 +1,16 @@
-fisheyegl
+FisheyeGl
 ====
 
-A library for performing fisheye, or barrel distortion, on images in the browser in JavaScript with WebGL.
+A library for correcting fisheye, or barrel distortion, on images in the browser in JavaScript with WebGL.
 
 Adapted from [fisheye-correction-webgl](https://github.com/bluemir/fisheye-correction-webgl) by @bluemir.
 
 ## Usage
 
-See `main.js` in examples folder, but basics are:
+
+## Using it in your code
+
+See `main.js` in the examples folder for a working implementation, but the basics are:
 
 ```js
 var distorter = FisheyeGl({
@@ -28,15 +31,15 @@ var distorter = FisheyeGl({
 });
 
 distorter.getImage(); // <= returns a native JavaScript Image object based on the DOM element
+
+distorter.setImage('path/to/image.jpg'); // <= load a new image with the same distortion settings
 ```
 
-## Issues
+## To do
 
-  // Use distorter.run() again when an image is drag/dropped in
+Image sizing - set canvas size from options on `setImage()`.
+
+See more in GitHub Issues: https://github.com/jywarren/fisheyegl/issues
 
 
-
-drag/drop image
-
-image resizing - set canvas size from options
 
