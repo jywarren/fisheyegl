@@ -7,6 +7,14 @@ Adapted from [fisheye-correction-webgl](https://github.com/bluemir/fisheye-corre
 
 ## Usage
 
+In the [live demo](https://jywarren.github.io/fisheyegl/example/), you can try it out -- use the default image or drag a new one in, and use the sliders to adjust the distortion. 
+
+Right click the image to save. Drag a new image in to use the same settings for multiple images.
+
+## Lens models
+
+If you can manually correct a particular lens or camera, please [file an issue](https://github.com/jywarren/fisheyegl/issues) or email jeff@publiclab.org to get a preset made; we can save up some presets and add a feature for quick correction of known cameras. 
+
 
 ## Using it in your code
 
