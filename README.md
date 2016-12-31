@@ -46,12 +46,6 @@ distorter.setImage('path/to/image.jpg'); // <= load a new image with the same di
 
 You will definitely need the two shader files and to provide relative links to them.
 
-## To do
-
-Image sizing - set canvas size from options on `setImage()`.
-
-See more in GitHub Issues: https://github.com/jywarren/fisheyegl/issues
-
 
 ## Resources
 
