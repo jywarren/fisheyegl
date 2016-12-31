@@ -50,4 +50,7 @@ Image sizing - set canvas size from options on `setImage()`.
 See more in GitHub Issues: https://github.com/jywarren/fisheyegl/issues
 
 
+## Resources
+
+Lots of good info here: http://wiki.panotools.org/Lens_correction_model#Lens_distortion_a.2C_b_.26_c_parameters
 

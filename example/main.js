@@ -6,27 +6,37 @@ jQuery(document).ready(function($) {
     image: 'images/grid.png'
   });
 
-  $("dl").on("change", function(e){
-    distorter.lens.a = $("#a_label").innerHTML = $("#a").val();
-    distorter.lens.b = $("#b_label").innerHTML = $("#b").val();
-    distorter.lens.F = $("#F_label").innerHTML = $("#F").val();
-    distorter.lens.scale = $("#scale_label").innerHTML = $("#scale").val();
+  $("dl").on("change", adjustLens);
+  $("dl input").on("mousemove", adjustLens);
+
+  function adjustLens(e) {
+    distorter.lens.a = $("#a_label")[0].innerHTML = $("#a").val();
+    distorter.lens.b = $("#b_label")[0].innerHTML = $("#b").val();
+    distorter.lens.F = $("#F_label")[0].innerHTML = $("#F").val();
+    distorter.lens.scale = $("#scale_label")[0].innerHTML = $("#scale").val();
     distorter.fov.x = $("#fovx").val();
     distorter.fov.y = $("#fovy").val();
     distorter.run();
-  });
+    $("#display .a")[0].innerHTML = distorter.lens.a;
+    $("#display .b")[0].innerHTML = distorter.lens.b;
+    $("#display .F")[0].innerHTML = distorter.lens.F;
+    $("#display .scale")[0].innerHTML = distorter.lens.scale;
+    $("#display .x")[0].innerHTML = distorter.fov.x;
+    $("#display .y")[0].innerHTML = distorter.fov.y;
+  }
 
   $("#a").val(distorter.lens.a);
-    $("#a_label").innerHTML = distorter.lens.a;
+    $("#a_label")[0].innerHTML = distorter.lens.a;
   $("#b").val(distorter.lens.b);
-    $("#b_label").innerHTML = distorter.lens.b;
+    $("#b_label")[0].innerHTML = distorter.lens.b;
   $("#F").val(distorter.lens.F);
-    $("#F_label").innerHTML = distorter.lens.F;
+    $("#F_label")[0].innerHTML = distorter.lens.F;
   $("#scale").val(distorter.lens.scale);
-    $("#scale_label").innerHTML = distorter.lens.scale;
+    $("#scale_label")[0].innerHTML = distorter.lens.scale;
   $("#fovx").val(distorter.fov.x);
   $("#fovy").val(distorter.fov.y);
 
+  adjustLens();
 
   // Drag & Drop behavior
 
@@ -48,6 +58,9 @@ jQuery(document).ready(function($) {
 
       reader = new FileReader()
       reader.onload = function(e) {
+        distorter.getImage(function getImage(image) {
+          $('#previous').prepend(image);
+        });
         distorter.setImage(event.target.result);
       }
       reader.readAsDataURL(f);

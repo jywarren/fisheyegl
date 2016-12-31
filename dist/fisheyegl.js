@@ -11,6 +11,10 @@ var FisheyeGl = function FisheyeGl(options){
 
   // Defaults:
   options = options || {};
+
+  options.width = options.width || 800;
+  options.height = options.height || 600;
+
   var model = options.model || {
     vertex :[
       -1.0, -1.0, 0.0,
@@ -95,7 +99,7 @@ var FisheyeGl = function FisheyeGl(options){
     for (var i = 0; i < names.length; ++i) {
       var gl;
       try {
-        gl = canvas.getContext(names[i]);
+        gl = canvas.getContext(names[i], { preserveDrawingBuffer: true });
       } catch(e) {
         continue;
       }
@@ -186,6 +190,12 @@ var FisheyeGl = function FisheyeGl(options){
     var img = new Image();
     img.addEventListener("load", function onload(){
       loadImage(gl, img, callback, texture);
+      options.width = img.width;
+      options.height = img.height;
+      resize(
+        options.width,
+        options.height
+      )
     });
     img.src = url;
     return texture;
@@ -216,12 +226,11 @@ var FisheyeGl = function FisheyeGl(options){
     }
   }
 
-  gl.viewport(
-    0,
-    0,
-    options.width || 800,
-    options.height || 600
-  );
+  function resize(w, h) {
+    gl.viewport(0, 0, w, h);
+    gl.canvas.width = w;
+    gl.canvas.height = h;
+  }
 
   options.runner = options.runner|| function runner(dt){
     
@@ -263,12 +272,16 @@ var FisheyeGl = function FisheyeGl(options){
 
   setImage(image);
 
-  function getImage() {
+  // asynchronous!
+  function getImage(callback) {
 
-    var image = new Image();
-    image.src = gl.canvas.toDataURL('image/png');
+    var img = new Image();
 
-    return image;
+    img.addEventListener("load", function onload(){
+      callback(img);
+    });
+
+    img.src = gl.canvas.toDataURL('image/png');
 
   }
 
