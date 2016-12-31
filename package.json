@@ -1,0 +1,27 @@
+{
+  "name": "fisheyegl",
+  "version": "0.0.1",
+  "description": "A JavaScript library for correcting fisheye, or barrel distortion, in images in the browser with WebGL -- adapted from fisheye-correction-webgl by @bluemir.",
+  "main": "dist/fisheyegl.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jywarren/fisheyegl.git"
+  },
+  "keywords": [
+    "images",
+    "distortion",
+    "lenses",
+    "barrel distortion",
+    "Public Lab",
+    "fisheye"
+  ],
+  "author": "Public Lab",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/jywarren/fisheyegl/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "homepage": "https://github.com/jywarren/fisheyegl"
+}

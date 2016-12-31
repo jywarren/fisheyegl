@@ -44,6 +44,8 @@ distorter.getImage('image/png'); // <= format can be specified
 distorter.setImage('path/to/image.jpg'); // <= load a new image with the same distortion settings
 ```
 
+You will definitely need the two shader files and to provide relative links to them.
+
 ## To do
 
 Image sizing - set canvas size from options on `setImage()`.
