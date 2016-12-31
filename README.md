@@ -23,7 +23,7 @@ See `main.js` in the examples folder for a working implementation, but the basic
 ```js
 var distorter = FisheyeGl({
   image: 'path/to/image.jpg',
-  selector: '#canvas', // your canvas element
+  selector: '#canvas', // a canvas element to work with
   lens: {
     a: 1,    // 0 to 4;  default 1
     b: 1,    // 0 to 4;  default 1
@@ -39,6 +39,7 @@ var distorter = FisheyeGl({
 });
 
 distorter.getImage(); // <= returns a native JavaScript Image object based on the DOM element
+distorter.getImage('image/png'); // <= format can be specified
 
 distorter.setImage('path/to/image.jpg'); // <= load a new image with the same distortion settings
 ```

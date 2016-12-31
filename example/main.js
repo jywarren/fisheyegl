@@ -58,9 +58,7 @@ jQuery(document).ready(function($) {
 
       reader = new FileReader()
       reader.onload = function(e) {
-        distorter.getImage(function getImage(image) {
-          $('#previous').prepend(image);
-        });
+        $('#previous').prepend(distorter.getImage());
         distorter.setImage(event.target.result);
       }
       reader.readAsDataURL(f);

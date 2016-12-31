@@ -273,15 +273,13 @@ var FisheyeGl = function FisheyeGl(options){
   setImage(image);
 
   // asynchronous!
-  function getImage(callback) {
+  function getImage(format) {
 
     var img = new Image();
 
-    img.addEventListener("load", function onload(){
-      callback(img);
-    });
+    img.src = gl.canvas.toDataURL(format || 'image/jpeg');
 
-    img.src = gl.canvas.toDataURL('image/png');
+    return img;
 
   }
 
