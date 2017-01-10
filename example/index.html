@@ -26,9 +26,15 @@
       #previous img {
         max-width: 100%;
       }
+      #grid {
+        position: absolute;
+        pointer-events: none;
+        background: url('images/gridGuide.png');
+      }
     </style>
   </head>
   <body>
+    <div width="800" height="600" id="canvas"></div>
     <canvas width="800" height="600" id="canvas"></canvas>
     <p id="display">
       a: <span class="a"></span>,
