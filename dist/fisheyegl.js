@@ -201,7 +201,7 @@ var FisheyeGl = function FisheyeGl(options){
     return texture;
   }
 
-  function run(animate){
+  function run(animate, callback){
     var f = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
       window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
@@ -222,6 +222,7 @@ var FisheyeGl = function FisheyeGl(options){
       var dt = t - current;
       current = t;
       options.runner(dt);
+      if (callback) callback();
       if (animate === true) f(on);
     }
   }
@@ -262,10 +263,10 @@ var FisheyeGl = function FisheyeGl(options){
 
   var texture;
 
-  function setImage(imageUrl) {
+  function setImage(imageUrl, callback) {
     texture = loadImageFromUrl(gl, imageUrl, function onImageLoad() {
 
-      run(options.animate);
+      run(options.animate, callback);
 
     });
   }

@@ -12,9 +12,20 @@
         float : left;
         background: black;
         margin-right: 20px;
+        margin-bottom: 20px;
         max-width: 50%;
         min-width: 200px;
         min-height: 200px;
+      }
+      #grid {
+        float : left;
+        position: absolute;
+        pointer-events: none;
+        background: url('images/gridGuide.png');
+        margin-right: 20px;
+        min-width: 200px;
+        min-height: 200px;
+        opacity: 0.3;
       }
       dl input {
         width : 300px;
@@ -24,17 +35,14 @@
         font-weight: bold;
       }
       #previous img {
-        max-width: 100%;
-      }
-      #grid {
-        position: absolute;
-        pointer-events: none;
-        background: url('images/gridGuide.png');
+        max-width: 20%;
+        float: left;
+        margin-right: 20px;
       }
     </style>
   </head>
   <body>
-    <div width="800" height="600" id="canvas"></div>
+    <canvas width="800" height="600" id="grid"></canvas>
     <canvas width="800" height="600" id="canvas"></canvas>
     <p id="display">
       a: <span class="a"></span>,
@@ -73,6 +81,8 @@
     </dl>
     <p>Drag a new image from your desktop onto the old one to run the correction on a new image. Right-click image to download.</p>
     <p>FisheyeGl is <a href="https://github.com/jywarren/fisheyegl">Open Source</a>. If you find the right settings for a particular camera or lens, <a href="https://github.com/jywarren/fisheyegl/issues/new">send them in</a> or email jeff@publiclab.org to get them added to a list of presets for a future "auto-correct" feature.</p>
+    <hr />
+    <h3>Previous images</h3>
     <div id="previous"></div>
     <script src="../dist/fisheyegl.js"></script>
     <script src="main.js"></script>

@@ -59,7 +59,10 @@ jQuery(document).ready(function($) {
       reader = new FileReader()
       reader.onload = function(e) {
         $('#previous').prepend(distorter.getImage());
-        distorter.setImage(event.target.result);
+        distorter.setImage(event.target.result, function callback() {
+          $('#grid').height($('#canvas').height());
+          $('#grid').width($('#canvas').width());
+        });
       }
       reader.readAsDataURL(f);
  
@@ -74,5 +77,10 @@ jQuery(document).ready(function($) {
 
   $('#canvas').on('dragover', onDragOver, false);
   $('#canvas')[0].addEventListener('drop', onDrop, false);
+
+  setTimeout(function() {
+    $('#grid').height($('#canvas').height());
+    $('#grid').width($('#canvas').width());
+  }, 0);
 
 });
