@@ -2,7 +2,7 @@
 
   if (typeof module === 'undefined')
     exports = FisheyeGl;
-  else 
+  else
     module.exports = FisheyeGl;
 
 })(typeof exports === 'undefined'? this['FisheyeGl']={}: exports);
@@ -39,7 +39,8 @@ var FisheyeGl = function FisheyeGl(options){
   var lens = options.lens || {
     a : 1.0,
     b : 1.0,
-    F : 1.0,
+    Fx : 0.0,
+    Fy : 0.0,
     scale : 1.5
   };
   var fov = options.fov || {
@@ -52,7 +53,7 @@ var FisheyeGl = function FisheyeGl(options){
   var gl = getGLContext(selector);
 
   var vertexSrc = loadFile(options.vertexSrc || "../shaders/vertex.glvs");
-  var fragmentSrc = loadFile(options.fragmentSrc || "../shaders/fragment.glfs");
+  var fragmentSrc = loadFile(options.fragmentSrc || "../shaders/fragment3.glfs");
 
   var program = compileShader(gl, vertexSrc, fragmentSrc)
   gl.useProgram(program);
@@ -60,7 +61,8 @@ var FisheyeGl = function FisheyeGl(options){
   var aVertexPosition = gl.getAttribLocation(program, "aVertexPosition");
   var aTextureCoord = gl.getAttribLocation(program, "aTextureCoord");
   var uSampler = gl.getUniformLocation(program, "uSampler");
-  var uLens = gl.getUniformLocation(program, "uLens");
+  var uLensS = gl.getUniformLocation(program, "uLensS");
+  var uLensF = gl.getUniformLocation(program, "uLensF");
   var uFov = gl.getUniformLocation(program, "uFov");
 
   var vertexBuffer,
@@ -234,12 +236,12 @@ var FisheyeGl = function FisheyeGl(options){
   }
 
   options.runner = options.runner|| function runner(dt){
-    
+
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.enable(gl.DEPTH_TEST);
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    
+
     gl.enableVertexAttribArray(aVertexPosition);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
@@ -254,7 +256,8 @@ var FisheyeGl = function FisheyeGl(options){
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.uniform1i(uSampler, 0);
 
-    gl.uniform4fv(uLens, [lens.a, lens.b, lens.F, lens.scale]);
+    gl.uniform3fv(uLensS, [lens.a, lens.b, lens.scale]);
+    gl.uniform2fv(uLensF, [lens.Fx, lens.Fy]);
     gl.uniform2fv(uFov, [fov.x, fov.y]);
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
