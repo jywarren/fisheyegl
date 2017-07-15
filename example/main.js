@@ -12,14 +12,16 @@ jQuery(document).ready(function($) {
   function adjustLens(e) {
     distorter.lens.a = $("#a_label")[0].innerHTML = $("#a").val();
     distorter.lens.b = $("#b_label")[0].innerHTML = $("#b").val();
-    distorter.lens.F = $("#F_label")[0].innerHTML = $("#F").val();
+    distorter.lens.Fx = $("#Fx_label")[0].innerHTML = $("#Fx").val();
+    distorter.lens.Fy = $("#Fy_label")[0].innerHTML = $("#Fy").val();
     distorter.lens.scale = $("#scale_label")[0].innerHTML = $("#scale").val();
     distorter.fov.x = $("#fovx").val();
     distorter.fov.y = $("#fovy").val();
     distorter.run();
     $("#display .a")[0].innerHTML = distorter.lens.a;
     $("#display .b")[0].innerHTML = distorter.lens.b;
-    $("#display .F")[0].innerHTML = distorter.lens.F;
+    $("#display .Fx")[0].innerHTML = distorter.lens.Fx;
+    $("#display .Fy")[0].innerHTML = distorter.lens.Fy;
     $("#display .scale")[0].innerHTML = distorter.lens.scale;
     $("#display .x")[0].innerHTML = distorter.fov.x;
     $("#display .y")[0].innerHTML = distorter.fov.y;
@@ -29,8 +31,10 @@ jQuery(document).ready(function($) {
     $("#a_label")[0].innerHTML = distorter.lens.a;
   $("#b").val(distorter.lens.b);
     $("#b_label")[0].innerHTML = distorter.lens.b;
-  $("#F").val(distorter.lens.F);
-    $("#F_label")[0].innerHTML = distorter.lens.F;
+  $("#Fx").val(distorter.lens.Fx);
+    $("#Fx_label")[0].innerHTML = distorter.lens.Fx;
+  $("#Fy").val(distorter.lens.Fy);
+    $("#Fy_label")[0].innerHTML = distorter.lens.Fy;
   $("#scale").val(distorter.lens.scale);
     $("#scale_label")[0].innerHTML = distorter.lens.scale;
   $("#fovx").val(distorter.fov.x);
@@ -65,7 +69,7 @@ jQuery(document).ready(function($) {
         });
       }
       reader.readAsDataURL(f);
- 
+
     }
   }
 
