@@ -13,8 +13,17 @@ Right click the image to save. Drag a new image in to use the same settings for 
 
 ## Lens models
 
-If you can manually correct a particular lens or camera, please [file an issue](https://github.com/jywarren/fisheyegl/issues) or email jeff@publiclab.org to get a preset made; we can save up some presets and add a feature for quick correction of known cameras. 
+If you can manually correct a particular lens or camera, please [file an issue](https://github.com/jywarren/fisheyegl/issues) or email jeff@publiclab.org to get a preset made; we can save up some presets and add a feature for quick correction of known cameras. Please include the `a`, `b`, `Fx`, `Fy`, and `fov` parameters and the make/model of your camera with a before/after image pair, so we can add them to a presets listing. 
 
+## Example before/after images:
+
+Before correcting lens (barrel) distortion:
+
+![grid.png](https://raw.githubusercontent.com/jywarren/fisheyegl/master/example/images/grid.png)
+
+After:
+
+![grid-fixed.png](https://raw.githubusercontent.com/jywarren/fisheyegl/master/example/images/grid-fixed.png)
 
 ## Using it in your code
 
@@ -27,8 +36,9 @@ var distorter = FisheyeGl({
   lens: {
     a: 1,    // 0 to 4;  default 1
     b: 1,    // 0 to 4;  default 1
-    F: 1,    // 0 to 4;  default 1
-    scale: 1.5 // 0 to 20; default 1.5
+    Fx: 0.0, // 0 to 4;  default 0.0
+    Fy: 0.0, // 0 to 4;  default 0.0
+   scale: 1.5 // 0 to 20; default 1.5
   },
   fov: {
     x: 1, // 0 to 2; default 1
