@@ -10,13 +10,13 @@ jQuery(document).ready(function($) {
   $("dl input").on("mousemove", adjustLens);
 
   function adjustLens(e) {
-    distorter.lens.a = $("#a_label")[0].innerHTML = $("#a").val();
-    distorter.lens.b = $("#b_label")[0].innerHTML = $("#b").val();
-    distorter.lens.Fx = $("#Fx_label")[0].innerHTML = $("#Fx").val();
-    distorter.lens.Fy = $("#Fy_label")[0].innerHTML = $("#Fy").val();
-    distorter.lens.scale = $("#scale_label")[0].innerHTML = $("#scale").val();
-    distorter.fov.x = $("#fovx").val();
-    distorter.fov.y = $("#fovy").val();
+    distorter.lens.a     = parseFloat($("#a_label")[0].innerHTML = $("#a").val());
+    distorter.lens.b     = parseFloat($("#b_label")[0].innerHTML = $("#b").val());
+    distorter.lens.Fx    = parseFloat($("#Fx_label")[0].innerHTML = $("#Fx").val());
+    distorter.lens.Fy    = parseFloat($("#Fy_label")[0].innerHTML = $("#Fy").val());
+    distorter.lens.scale = parseFloat($("#scale_label")[0].innerHTML = $("#scale").val());
+    distorter.fov.x      = parseFloat($("#fovx").val());
+    distorter.fov.y      = parseFloat($("#fovy").val());
     distorter.run();
     $("#display .a")[0].innerHTML     = distorter.lens.a;
     $("#display .b")[0].innerHTML     = distorter.lens.b;
@@ -34,14 +34,24 @@ jQuery(document).ready(function($) {
     setUrlHashParameter("x",     distorter.fov.x);
     setUrlHashParameter("y",     distorter.fov.y);
   }
-    
-  distorter.lens.a     = getUrlHashParameter("a")     | distorter.lens.a;
-  distorter.lens.b     = getUrlHashParameter("b")     | distorter.lens.b;
-  distorter.lens.Fx    = getUrlHashParameter("Fx")    | distorter.lens.Fx;
-  distorter.lens.Fy    = getUrlHashParameter("Fy")    | distorter.lens.Fy;
-  distorter.lens.scale = getUrlHashParameter("scale") | distorter.lens.scale;
-  distorter.fov.x      = getUrlHashParameter("x")     | distorter.fov.x;
-  distorter.fov.y      = getUrlHashParameter("y")     | distorter.fov.y; 
+
+  function readHash() { 
+    distorter.lens.a     = parseFloat(getUrlHashParameter("a"))     || distorter.lens.a;
+    distorter.lens.b     = parseFloat(getUrlHashParameter("b"))     || distorter.lens.b;
+    distorter.lens.Fx    = parseFloat(getUrlHashParameter("Fx"))    || distorter.lens.Fx;
+    distorter.lens.Fy    = parseFloat(getUrlHashParameter("Fy"))    || distorter.lens.Fy;
+    distorter.lens.scale = parseFloat(getUrlHashParameter("scale")) || distorter.lens.scale;
+    distorter.fov.x      = parseFloat(getUrlHashParameter("x"))     || distorter.fov.x;
+    distorter.fov.y      = parseFloat(getUrlHashParameter("y"))     || distorter.fov.y; 
+  }
+
+  readHash();
+
+  // not quite working:
+  //$(window).on('hashchange', function() {
+  //  readHash();
+  //  adjustLens();
+  //});
 
   $("#a").val(distorter.lens.a);
     $("#a_label")[0].innerHTML = distorter.lens.a;
