@@ -11,6 +11,13 @@ In the [live demo](https://jywarren.github.io/fisheyegl/example/), you can try i
 
 Right click the image to save. Drag a new image in to use the same settings for multiple images.
 
+## Presets
+
+You can now use the example page to generate preset URLs, since the settings are now stored in the URL (only in the demo):
+
+* Mobius Action Cam (default lens): https://jywarren.github.io/fisheyegl/example/#a=1.048&b=1.059&Fx=0.09&Fy=0.22&scale=1.087&x=1&y=1
+* [GoPro alternatives](https://publiclab.org/questions/warren/05-20-2017/cheap-lightweight-gopro-alternatives-for-aerial-mapping) (many almost identical): https://jywarren.github.io/fisheyegl/example/#a=1&b=1&Fx=0.16&Fy=0.16&scale=1.087&x=1&y=1
+
 ## Lens models
 
 If you can manually correct a particular lens or camera, please [file an issue](https://github.com/jywarren/fisheyegl/issues) or email jeff@publiclab.org to get a preset made; we can save up some presets and add a feature for quick correction of known cameras. Please include the `a`, `b`, `Fx`, `Fy`, and `fov` parameters and the make/model of your camera with a before/after image pair, so we can add them to a presets listing. 
