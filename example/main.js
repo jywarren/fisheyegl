@@ -18,14 +18,30 @@ jQuery(document).ready(function($) {
     distorter.fov.x = $("#fovx").val();
     distorter.fov.y = $("#fovy").val();
     distorter.run();
-    $("#display .a")[0].innerHTML = distorter.lens.a;
-    $("#display .b")[0].innerHTML = distorter.lens.b;
-    $("#display .Fx")[0].innerHTML = distorter.lens.Fx;
-    $("#display .Fy")[0].innerHTML = distorter.lens.Fy;
+    $("#display .a")[0].innerHTML     = distorter.lens.a;
+    $("#display .b")[0].innerHTML     = distorter.lens.b;
+    $("#display .Fx")[0].innerHTML    = distorter.lens.Fx;
+    $("#display .Fy")[0].innerHTML    = distorter.lens.Fy;
     $("#display .scale")[0].innerHTML = distorter.lens.scale;
-    $("#display .x")[0].innerHTML = distorter.fov.x;
-    $("#display .y")[0].innerHTML = distorter.fov.y;
+    $("#display .x")[0].innerHTML     = distorter.fov.x;
+    $("#display .y")[0].innerHTML     = distorter.fov.y;
+    
+    setUrlHashParameter("a",     distorter.lens.a);
+    setUrlHashParameter("b",     distorter.lens.b);
+    setUrlHashParameter("Fx",    distorter.lens.Fx);
+    setUrlHashParameter("Fy",    distorter.lens.Fy);
+    setUrlHashParameter("scale", distorter.lens.scale);
+    setUrlHashParameter("x",     distorter.fov.x);
+    setUrlHashParameter("y",     distorter.fov.y);
   }
+    
+  distorter.lens.a     = getUrlHashParameter("a")     | distorter.lens.a;
+  distorter.lens.b     = getUrlHashParameter("b")     | distorter.lens.b;
+  distorter.lens.Fx    = getUrlHashParameter("Fx")    | distorter.lens.Fx;
+  distorter.lens.Fy    = getUrlHashParameter("Fy")    | distorter.lens.Fy;
+  distorter.lens.scale = getUrlHashParameter("scale") | distorter.lens.scale;
+  distorter.fov.x      = getUrlHashParameter("x")     | distorter.fov.x;
+  distorter.fov.y      = getUrlHashParameter("y")     | distorter.fov.y; 
 
   $("#a").val(distorter.lens.a);
     $("#a_label")[0].innerHTML = distorter.lens.a;
