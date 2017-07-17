@@ -3,6 +3,7 @@ precision highp float;
 #endif
 
 uniform vec4 uLens;
+uniform float ratio;
 uniform vec2 uFov;
 
 uniform sampler2D uSampler;
@@ -17,8 +18,10 @@ vec2 GLCoord2TextureCoord(vec2 glCoord) {
 void main(void){
 	float scale = uLens.w;
 	float F = uLens.z;
-	
-	float L = length(vec3(vPosition.xy/scale, F));
+
+	vPosC.x /= ratio;
+
+	float L = length(vec3(vPosC/scale, F));
 
 	vec2 vMapping = vPosition.xy * F / L;
 	vMapping = vMapping * uLens.xy;
@@ -28,6 +31,6 @@ void main(void){
 	vec4 texture = texture2D(uSampler, vMapping);
 	if(vMapping.x > 0.99 || vMapping.x < 0.01 || vMapping.y > 0.99 || vMapping.y < 0.01){
 		texture = vec4(0.0, 0.0, 0.0, 1.0);
-	} 
+	}
 	gl_FragColor = texture;
 }

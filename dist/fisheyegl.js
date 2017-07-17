@@ -39,21 +39,22 @@ var FisheyeGl = function FisheyeGl(options){
   var lens = options.lens || {
     a : 1.0,
     b : 1.0,
-    Fx : 0.0,
-    Fy : 0.0,
+    F : 1.0,
+    ratio : 1.0,
     scale : 1.5
   };
   var fov = options.fov || {
     x : 1.0,
     y : 1.0
-  }
+  };
+
   var image = options.image || "images/barrel-distortion.png";
 
   var selector = "#canvas" || options.selector;
   var gl = getGLContext(selector);
 
   var vertexSrc = loadFile(options.vertexSrc || "../shaders/vertex.glvs");
-  var fragmentSrc = loadFile(options.fragmentSrc || "../shaders/fragment3.glfs");
+  var fragmentSrc = loadFile(options.fragmentSrc || "../shaders/fragment.glfs");
 
   var program = compileShader(gl, vertexSrc, fragmentSrc)
   gl.useProgram(program);
@@ -61,8 +62,8 @@ var FisheyeGl = function FisheyeGl(options){
   var aVertexPosition = gl.getAttribLocation(program, "aVertexPosition");
   var aTextureCoord = gl.getAttribLocation(program, "aTextureCoord");
   var uSampler = gl.getUniformLocation(program, "uSampler");
-  var uLensS = gl.getUniformLocation(program, "uLensS");
-  var uLensF = gl.getUniformLocation(program, "uLensF");
+  var uLens = gl.getUniformLocation(program, "uLens");
+  var ratio = gl.getUniformLocation(program, "ratio");
   var uFov = gl.getUniformLocation(program, "uFov");
 
   var vertexBuffer,
@@ -170,6 +171,8 @@ var FisheyeGl = function FisheyeGl(options){
   }
 
   function loadImage(gl, img, callback, texture){
+    lens.ratio = img.height/img.width;
+
     texture = texture || gl.createTexture();
 
     gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -256,8 +259,8 @@ var FisheyeGl = function FisheyeGl(options){
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.uniform1i(uSampler, 0);
 
-    gl.uniform3fv(uLensS, [lens.a, lens.b, lens.scale]);
-    gl.uniform2fv(uLensF, [lens.Fx, lens.Fy]);
+    gl.uniform4fv(uLens, [lens.a, lens.b, lens.F, lens.scale]);
+    gl.uniform1fv(ratio, [lens.ratio]);
     gl.uniform2fv(uFov, [fov.x, fov.y]);
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
