@@ -19,6 +19,7 @@ void main(void){
 	float scale = uLens.w;
 	float F = uLens.z;
 
+	vec2 vPosC = vPosition.xy;
 	vPosC.x /= ratio;
 
 	float L = length(vec3(vPosC/scale, F));
