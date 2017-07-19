@@ -22,6 +22,10 @@
     "url": "https://github.com/jywarren/fisheyegl/issues"
   },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-browserify": "^5.0.0",
+    "grunt-replace": "^1.0.1"
+  },
   "homepage": "https://github.com/jywarren/fisheyegl"
 }
