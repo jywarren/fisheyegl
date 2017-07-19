@@ -1,4 +1,4 @@
-module.exports = function FisheyeGl(options){
+FisheyeGl = function FisheyeGl(options){
 
   // Defaults:
   options = options || {};
@@ -136,7 +136,7 @@ module.exports = function FisheyeGl(options){
   function loadFile(url, callback){
 
     if(shaders.hasOwnProperty(url)) {
-      return shaders.url;
+      return shaders[url];
     }
 
     var ajax = new XMLHttpRequest();

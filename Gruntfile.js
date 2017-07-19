@@ -55,4 +55,6 @@ module.exports = function(grunt) {
   grunt.registerTask('gen-shader-modules', 'replace');
   grunt.registerTask('build', 'browserify');
 
+  grunt.registerTask('default', ['replace','browserify']);
+
 }
