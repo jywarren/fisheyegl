@@ -43,8 +43,10 @@ module.exports = function FisheyeGl(options){
   var selector = options.selector || "#canvas";
   var gl = getGLContext(selector);
 
-  var vertexSrc = loadFile(options.vertexSrc || "../shaders/vertex.glvs");
-  var fragmentSrc = loadFile(options.fragmentSrc || "../shaders/fragment3.glfs");
+  var shaders = require('./shaders');
+
+  var vertexSrc = loadFile(options.vertexSrc || "vertex");
+  var fragmentSrc = loadFile(options.fragmentSrc || "fragment3");
 
   var program = compileShader(gl, vertexSrc, fragmentSrc)
   gl.useProgram(program);
@@ -132,6 +134,11 @@ module.exports = function FisheyeGl(options){
   }
 
   function loadFile(url, callback){
+
+    if(shaders.hasOwnProperty(url)) {
+      return shaders.url;
+    }
+
     var ajax = new XMLHttpRequest();
 
     if(callback) {
