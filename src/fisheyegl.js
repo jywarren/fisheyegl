@@ -1,4 +1,4 @@
-FisheyeGl = function FisheyeGl(options){
+var FisheyeGl = function FisheyeGl(options){
 
   // Defaults:
   options = options || {};
@@ -299,3 +299,8 @@ FisheyeGl = function FisheyeGl(options){
   return distorter;
 
 }
+
+if (typeof(document) != 'undefined')
+  window.FisheyeGl = FisheyeGl;
+else
+  module.exports = FisheyeGl;
