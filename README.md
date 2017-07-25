@@ -7,7 +7,7 @@ Adapted from [fisheye-correction-webgl](https://github.com/bluemir/fisheye-corre
 
 ## Usage
 
-In the [live demo](https://jywarren.github.io/fisheyegl/example/), you can try it out -- use the default image or drag a new one in, and use the sliders to adjust the distortion. 
+In the [live demo](https://jywarren.github.io/fisheyegl/example/), you can try it out -- use the default image or drag a new one in, and use the sliders to adjust the distortion.
 
 Right click the image to save. Drag a new image in to use the same settings for multiple images.
 
@@ -20,7 +20,7 @@ You can now use the example page to generate preset URLs, since the settings are
 
 ## Lens models
 
-If you can manually correct a particular lens or camera, please [file an issue](https://github.com/jywarren/fisheyegl/issues) or email jeff@publiclab.org to get a preset made; we can save up some presets and add a feature for quick correction of known cameras. Please include the `a`, `b`, `Fx`, `Fy`, and `fov` parameters and the make/model of your camera with a before/after image pair, so we can add them to a presets listing. 
+If you can manually correct a particular lens or camera, please [file an issue](https://github.com/jywarren/fisheyegl/issues) or email jeff@publiclab.org to get a preset made; we can save up some presets and add a feature for quick correction of known cameras. Please include the `a`, `b`, `Fx`, `Fy`, and `fov` parameters and the make/model of your camera with a before/after image pair, so we can add them to a presets listing.
 
 ## Example before/after images:
 
@@ -51,8 +51,8 @@ var distorter = FisheyeGl({
     x: 1, // 0 to 2; default 1
     y: 1  // 0 to 2; default 1
   },
-  fragmentSrc: "../shaders/fragment.glfs", // these are provided in the /shaders/ directory
-  vertexSrc:   "../shaders/vertex.glvs"
+  fragmentSrc: "path/to/fragment.glfs", // defaults to an inbuilt fragment shader
+  vertexSrc:   "path/to/vertex.glvs" // defaults to an inbuilt vertex shader
 });
 
 distorter.getImage(); // <= returns a native JavaScript Image object based on the DOM element
@@ -61,10 +61,9 @@ distorter.getImage('image/png'); // <= format can be specified
 distorter.setImage('path/to/image.jpg'); // <= load a new image with the same distortion settings
 ```
 
-You will definitely need the two shader files and to provide relative links to them.
+You do not need to provide links to shader files, but you may, if you wish to use a custom shader.
 
 
 ## Resources
 
 Lots of good info here: http://wiki.panotools.org/Lens_correction_model#Lens_distortion_a.2C_b_.26_c_parameters
-
