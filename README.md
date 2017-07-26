@@ -51,8 +51,8 @@ var distorter = FisheyeGl({
     x: 1, // 0 to 2; default 1
     y: 1  // 0 to 2; default 1
   },
-  fragmentSrc: "path/to/fragment.glfs", // defaults to an inbuilt fragment shader
-  vertexSrc:   "path/to/vertex.glvs" // defaults to an inbuilt vertex shader
+  fragmentSrc: "path/to/fragment.glfs", // optional, defaults to an inbuilt fragment shader 
+  vertexSrc:   "path/to/vertex.glvs" // optional, defaults to an inbuilt vertex shader
 });
 
 distorter.getImage(); // <= returns a native JavaScript Image object based on the DOM element
