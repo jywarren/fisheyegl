@@ -109,18 +109,35 @@ jQuery(document).ready(function($) {
     for (var i = 0, f; f = files[i]; i++) {
       // Read the File objects in this FileList.
 
-      reader = new FileReader()
+      var reader = new FileReader();
       reader.onload = function(e) {
+
+        var dataurl = distorter.getSrc();
+//        var bin = atob(dataurl.split(',')[1]);
+//        var exif = EXIF.readFromBinaryFile(new BinaryFile(bin));
+//        console.log(exif);
+
         var uniq = (new Date()).getTime();
-        $('#previous').prepend('<a target="_blank" class="' + uniq + '" href="' + distorter.getSrc() + '"></a>');
+        $('#previous').prepend('<a target="_blank" class="' + uniq + '" href="' + dataurl + '"></a>');
         $('.' + uniq).append(distorter.getImage());
         distorter.setImage(event.target.result, function callback() {
           $('#grid').height($('#canvas').height());
           $('#grid').width($('#canvas').width());
         });
+
       }
       reader.readAsDataURL(f);
 
+      // EXIF
+      var exifReader = new FileReader();
+
+      $('.exif').html('');
+      exifReader.onload = function(e) {
+        var exif = EXIF.readFromBinaryFile(e.target.result);
+        $('.exif-camera').html(exif.Make + ', ' + exif.Model);
+        $('.exif').html(JSON.stringify(exif));
+      }
+      exifReader.readAsArrayBuffer(f);
     }
   }
 
