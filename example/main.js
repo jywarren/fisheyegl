@@ -1,4 +1,4 @@
-var distorter;
+var distorter, readHash, adjustLens;
 
 jQuery(document).ready(function($) {
 
@@ -9,7 +9,7 @@ jQuery(document).ready(function($) {
   $("dl").on("change", adjustLens);
   $("dl input").on("mousemove", adjustLens);
 
-  function adjustLens(e) {
+  adjustLens = function adjustLens(e) {
     distorter.lens.a     = parseFloat($("#a_label")[0].innerHTML = $("#a").val());
     distorter.lens.b     = parseFloat($("#b_label")[0].innerHTML = $("#b").val());
     distorter.lens.Fx    = parseFloat($("#Fx_label")[0].innerHTML = $("#Fx").val());
@@ -35,7 +35,7 @@ jQuery(document).ready(function($) {
     setUrlHashParameter("y",     distorter.fov.y);
   }
 
-  function readHash() { 
+  readHash = function readHash() { 
     distorter.lens.a     = parseFloat(getUrlHashParameter("a"))     || distorter.lens.a;
     distorter.lens.b     = parseFloat(getUrlHashParameter("b"))     || distorter.lens.b;
     distorter.lens.Fx    = parseFloat(getUrlHashParameter("Fx"))    || distorter.lens.Fx;
@@ -88,7 +88,9 @@ jQuery(document).ready(function($) {
 
       reader = new FileReader()
       reader.onload = function(e) {
-        $('#previous').prepend(distorter.getImage());
+        var uniq = (new Date()).getTime();
+        $('#previous').prepend('<a target="_blank" class="' + uniq + '" href="' + distorter.getSrc() + '"></a>');
+        $('.' + uniq).append(distorter.getImage());
         distorter.setImage(event.target.result, function callback() {
           $('#grid').height($('#canvas').height());
           $('#grid').width($('#canvas').width());

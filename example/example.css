@@ -1,0 +1,39 @@
+html {
+  padding: 20px 0 50px;
+}
+body {
+  font-family: sans-serif;
+  background : #f8f8f8;
+  color: #555;
+}
+canvas {
+  float : left;
+  background: black;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  max-width: 100%;
+  min-width: 200px;
+  min-height: 200px;
+}
+#grid {
+  float : left;
+  position: absolute;
+  pointer-events: none;
+  background: url('images/gridGuide.png');
+  margin-right: 20px;
+  min-width: 200px;
+  min-height: 200px;
+  opacity: 0.3;
+}
+dl input {
+  width : 300px;
+}
+#display {
+  padding: 10px;
+  font-weight: bold;
+}
+#previous img {
+  max-width: 20%;
+  float: left;
+  margin-right: 20px;
+}
