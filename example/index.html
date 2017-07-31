@@ -2,99 +2,109 @@
   <head>
     <title>FisheyeGl Demo</title>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- <script src="../node_modules/jquery/dist/jquery.min.js"></script> -->
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="urlHash.js"></script>
-    <style>
-      body {
-        font-family: sans-serif;
-        background : #efefef;
-        color: #555;
-      }
-      canvas {
-        float : left;
-        background: black;
-        margin-right: 20px;
-        margin-bottom: 20px;
-        max-width: 50%;
-        min-width: 200px;
-        min-height: 200px;
-      }
-      #grid {
-        float : left;
-        position: absolute;
-        pointer-events: none;
-        background: url('images/gridGuide.png');
-        margin-right: 20px;
-        min-width: 200px;
-        min-height: 200px;
-        opacity: 0.3;
-      }
-      dl input {
-        width : 300px;
-      }
-      #display {
-        padding: 10px;
-        font-weight: bold;
-      }
-      #previous img {
-        max-width: 20%;
-        float: left;
-        margin-right: 20px;
-      }
-    </style>
+    <link href="example.css" rel="stylesheet">
   </head>
+
   <body>
-    <canvas width="800" height="600" id="grid"></canvas>
-    <canvas width="800" height="600" id="canvas"></canvas>
-    <p id="display">
-      a: <span class="a"></span>,
-      b: <span class="b"></span>,
-      Fx: <span class="Fx"></span>,
-      Fy: <span class="Fy"></span>,
-      scale: <span class="scale"></span>,
-      x: <span class="x"></span>,
-      y: <span class="y"></span>
-    </p>
-    <p>Use the sliders to adjust the correction.</p>
-    <dl>
-      <dt>Fx</dt>
-      <dd>
-        <input id="Fx" type="range" min="0.0" max="2.0" value="1.0" step="0.01"/>
-        <span id="Fx_label"></span>
-      </dd>
-      <dt>Fy</dt>
-      <dd>
-        <input id="Fy" type="range" min="0.0" max="2.0" value="1.0" step="0.01"/>
-        <span id="Fy_label"></span>
-      </dd>
-      <dt>a</dt>
-      <dd>
-        <input id="a" type="range" min="0.0" max="4.0" value="1.0" step="0.001"/>
-        <span id="a_label"></span>
-      </dd>
-      <dt>b</dt>
-      <dd>
-        <input id="b" type="range" min="0.0" max="4.0" value="1.0" step="0.001"/>
-        <span id="b_label"></span>
-      </dd>
-      <dt>scale</dt>
-      <dd>
-        <input id="scale" type="range" min="0.0" max="20.0" value="1.0" step="0.001"/>
-        <span id="scale_label"></span>
-      </dd>
-      <dt>fov x</dt>
-      <dd><input id="fovx" type="range" min="0.0" max="2.0" value="1.0" step="0.001"/></dd>
-      <dt>fov y</dt>
-      <dd><input id="fovy" type="range" min="0.0" max="2.0" value="1.0" step="0.001"/></dd>
-    </dl>
-    <p>Drag a new image from your desktop onto the old one to run the correction on a new image. Right-click image to download.</p>
-    <p>FisheyeGl is <a href="https://github.com/jywarren/fisheyegl">Open Source</a>. If you find the right settings for a particular camera or lens, <a href="https://github.com/jywarren/fisheyegl/issues/new">send them in</a> or email jeff@publiclab.org to get them added to a list of presets for a future "auto-correct" feature.</p>
+
+    <div class="container-fluid">
+
+    <div>
+      <h2><i>Lens distortion removal</i></h2>
+      <p>FisheyeGL is an <a href="https://github.com/jywarren/fisheyegl">open source</a> tool by <a href="https://publiclab.org">Public Lab</a> for removing lens distortion from photographs, from a WebGL enabled browser. <a href="javascript:void();" onClick="$('#docs').toggle()">Read more</a></p>
+    </div>
+
+    <br />
+
+    <div id="docs" style="display:none;">
+      <h3></h3>
+      <p>Many wide-angle lenses show a "fisheye" effect, where straight lines end up curved in order to show a wider field of view. Using the sliders, this page can help remove this effect, though it will also crop the corners of images to achive this effect. See these before and after images:</p>
+      <p>
+        <img style="width:25%;" src="images/grid.png" />
+        <img style="width:25%;" src="images/grid-fixed.png" />
+      </p>
+      <p>Drag a new image onto the canvas to re-use the current settings; you can process as many images as you like in this way.</p>
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-6">
+        <canvas width="800" height="600" id="grid"></canvas>
+        <canvas width="800" height="600" id="canvas"></canvas>
+      </div> 
+      
+      <div class="col-md-6">
+
+        <p id="display">
+          a: <span class="a"></span>,
+          b: <span class="b"></span>,
+          Fx: <span class="Fx"></span>,
+          Fy: <span class="Fy"></span>,
+          scale: <span class="scale"></span>,
+          x: <span class="x"></span>,
+          y: <span class="y"></span>
+        </p>
+        <p>Drag a new image from your desktop onto the old one to run the correction on a new image. Right-click image to download.</p>
+        <p>Use the sliders to adjust the correction.</p>
+        <dl>
+          <dt>Fx</dt>
+          <dd>
+            <input id="Fx" type="range" min="0.0" max="2.0" value="1.0" step="0.01"/>
+            <span id="Fx_label"></span>
+          </dd>
+          <dt>Fy</dt>
+          <dd>
+            <input id="Fy" type="range" min="0.0" max="2.0" value="1.0" step="0.01"/>
+            <span id="Fy_label"></span>
+          </dd>
+          <dt>a</dt>
+          <dd>
+            <input id="a" type="range" min="0.0" max="4.0" value="1.0" step="0.001"/>
+            <span id="a_label"></span>
+          </dd>
+          <dt>b</dt>
+          <dd>
+            <input id="b" type="range" min="0.0" max="4.0" value="1.0" step="0.001"/>
+            <span id="b_label"></span>
+          </dd>
+          <dt>scale</dt>
+          <dd>
+            <input id="scale" type="range" min="0.0" max="20.0" value="1.0" step="0.001"/>
+            <span id="scale_label"></span>
+          </dd>
+          <dt>fov x</dt>
+          <dd><input id="fovx" type="range" min="0.0" max="2.0" value="1.0" step="0.001"/></dd>
+          <dt>fov y</dt>
+          <dd><input id="fovy" type="range" min="0.0" max="2.0" value="1.0" step="0.001"/></dd>
+        </dl>
+      </div>
+
+    </div>
+
+    <br style="clear:both;" />
     <p><b>Presets</b></p>
+    <p>If you find the right settings for a particular camera or lens, <a href="https://github.com/jywarren/fisheyegl/issues/new">send them in</a> or email jeff@publiclab.org to get them added to a list of presets for a future "auto-correct" feature.</p>
     <ul>
-      <li>Mobius Action Cam (default lens): <a href="https://jywarren.github.io/fisheyegl/example/#a=1.048&b=1.059&Fx=0.09&Fy=0.22&scale=1.087&x=1&y=1">preset</a></li>
-      <li><a href="https://publiclab.org/questions/warren/05-20-2017/cheap-lightweight-gopro-alternatives-for-aerial-mapping">GoPro alternatives</a>: <a href="https://jywarren.github.io/fisheyegl/example/#a=1&b=1&Fx=0.16&Fy=0.16&scale=1.087&x=1&y=1">preset</a> (many almost identical)</li>
-    </p>
+      <li>
+        Mobius Action Cam (default lens): 
+        <a onClick="example.useHash('#a=1.048&b=1.059&Fx=0.09&Fy=0.22&scale=1.087&x=1&y=1');">preset</a>
+      </li>
+      <li>
+        <a href="https://publiclab.org/questions/warren/05-20-2017/cheap-lightweight-gopro-alternatives-for-aerial-mapping">GoPro alternatives</a>: 
+        <a onClick="example.useHash('#a=1&b=1&Fx=0.16&Fy=0.16&scale=1.087&x=1&y=1');">preset</a> (many almost identical)
+      </li>
+    </ul>
+
     <hr style="clear:both;" />
+
     <h3>Previous images</h3>
+    <p>Drag a new image above and the current image will be saved here. Click to open or download.</p>
+
     <div id="previous"></div>
     <script src="../dist/fisheyegl.js"></script>
     <script src="main.js"></script>

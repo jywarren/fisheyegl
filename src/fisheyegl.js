@@ -285,6 +285,12 @@ var FisheyeGl = function FisheyeGl(options){
 
   }
 
+  function getSrc(format) {
+
+    return gl.canvas.toDataURL(format || 'image/jpeg');
+
+  }
+
   // external API:
   var distorter = {
     options:  options,
@@ -293,7 +299,8 @@ var FisheyeGl = function FisheyeGl(options){
     fov:      fov,
     run:      run,
     getImage: getImage,
-    setImage: setImage
+    setImage: setImage,
+    getSrc:   getSrc
   }
 
   return distorter;
