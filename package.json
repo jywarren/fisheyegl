@@ -1,6 +1,6 @@
 {
   "name": "fisheyegl",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A JavaScript library for correcting fisheye, or barrel distortion, in images in the browser with WebGL -- adapted from fisheye-correction-webgl by @bluemir.",
   "main": "src/fisheyegl.js",
   "scripts": {},
