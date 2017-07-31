@@ -6,6 +6,9 @@
 
     <!-- <script src="../node_modules/jquery/dist/jquery.min.js"></script> -->
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- <script src="../node_modules/exif-js/exif.js"></script> -->
+    <script src="https://mapknitter.org/lib/exif-js/exif.js"></script>
+
     <script src="urlHash.js"></script>
     <link href="example.css" rel="stylesheet">
   </head>
@@ -49,6 +52,9 @@
           x: <span class="x"></span>,
           y: <span class="y"></span>
         </p>
+        <p class="exif-camera"></p>
+        <p><a onClick="$('.exif').toggle();">Show full EXIF data</a></p>
+        <textarea class="exif" style="width:100%;height:300px;display:none;"></textarea>
         <p>Drag a new image from your desktop onto the old one to run the correction on a new image. Right-click image to download.</p>
         <p>Use the sliders to adjust the correction.</p>
         <dl>
@@ -108,5 +114,6 @@
     <div id="previous"></div>
     <script src="../dist/fisheyegl.js"></script>
     <script src="main.js"></script>
+
   </body>
 </html>

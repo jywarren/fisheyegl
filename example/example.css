@@ -37,3 +37,6 @@ dl input {
   float: left;
   margin-right: 20px;
 }
+.exif-camera {
+  font-weight: bold;
+}
