@@ -1,4 +1,4 @@
-var distorter, readHash, adjustLens;
+var distorter, example;
 
 jQuery(document).ready(function($) {
 
@@ -6,18 +6,22 @@ jQuery(document).ready(function($) {
     image: 'images/grid.png'
   });
 
-  $("dl").on("change", adjustLens);
-  $("dl input").on("mousemove", adjustLens);
-
-  adjustLens = function adjustLens(e) {
-    distorter.lens.a     = parseFloat($("#a_label")[0].innerHTML = $("#a").val());
-    distorter.lens.b     = parseFloat($("#b_label")[0].innerHTML = $("#b").val());
-    distorter.lens.Fx    = parseFloat($("#Fx_label")[0].innerHTML = $("#Fx").val());
-    distorter.lens.Fy    = parseFloat($("#Fy_label")[0].innerHTML = $("#Fy").val());
-    distorter.lens.scale = parseFloat($("#scale_label")[0].innerHTML = $("#scale").val());
-    distorter.fov.x      = parseFloat($("#fovx").val());
-    distorter.fov.y      = parseFloat($("#fovy").val());
+  function onSliderChange() {
+    readSliders();  
     distorter.run();
+    writeHash();
+    updateDisplay();
+  }
+  $("dl").on("change", onSliderChange);
+  $("dl input").on("mousemove", onSliderChange);
+
+  readHash();
+  setSliders();
+  readSliders();  
+  distorter.run();
+  updateDisplay();
+
+  function updateDisplay() {
     $("#display .a")[0].innerHTML     = distorter.lens.a;
     $("#display .b")[0].innerHTML     = distorter.lens.b;
     $("#display .Fx")[0].innerHTML    = distorter.lens.Fx;
@@ -25,7 +29,19 @@ jQuery(document).ready(function($) {
     $("#display .scale")[0].innerHTML = distorter.lens.scale;
     $("#display .x")[0].innerHTML     = distorter.fov.x;
     $("#display .y")[0].innerHTML     = distorter.fov.y;
-    
+  }
+
+  function readSliders() {
+    distorter.lens.a     = parseFloat($("#a_label")[0].innerHTML = $("#a").val());
+    distorter.lens.b     = parseFloat($("#b_label")[0].innerHTML = $("#b").val());
+    distorter.lens.Fx    = parseFloat($("#Fx_label")[0].innerHTML = $("#Fx").val());
+    distorter.lens.Fy    = parseFloat($("#Fy_label")[0].innerHTML = $("#Fy").val());
+    distorter.lens.scale = parseFloat($("#scale_label")[0].innerHTML = $("#scale").val());
+    distorter.fov.x      = parseFloat($("#fovx").val());
+    distorter.fov.y      = parseFloat($("#fovy").val());
+  }
+
+  function writeHash() {
     setUrlHashParameter("a",     distorter.lens.a);
     setUrlHashParameter("b",     distorter.lens.b);
     setUrlHashParameter("Fx",    distorter.lens.Fx);
@@ -35,7 +51,7 @@ jQuery(document).ready(function($) {
     setUrlHashParameter("y",     distorter.fov.y);
   }
 
-  readHash = function readHash() { 
+  function readHash() { 
     distorter.lens.a     = parseFloat(getUrlHashParameter("a"))     || distorter.lens.a;
     distorter.lens.b     = parseFloat(getUrlHashParameter("b"))     || distorter.lens.b;
     distorter.lens.Fx    = parseFloat(getUrlHashParameter("Fx"))    || distorter.lens.Fx;
@@ -45,28 +61,35 @@ jQuery(document).ready(function($) {
     distorter.fov.y      = parseFloat(getUrlHashParameter("y"))     || distorter.fov.y; 
   }
 
-  readHash();
-
   // not quite working:
   //$(window).on('hashchange', function() {
   //  readHash();
   //  adjustLens();
   //});
 
-  $("#a").val(distorter.lens.a);
-    $("#a_label")[0].innerHTML = distorter.lens.a;
-  $("#b").val(distorter.lens.b);
-    $("#b_label")[0].innerHTML = distorter.lens.b;
-  $("#Fx").val(distorter.lens.Fx);
-    $("#Fx_label")[0].innerHTML = distorter.lens.Fx;
-  $("#Fy").val(distorter.lens.Fy);
-    $("#Fy_label")[0].innerHTML = distorter.lens.Fy;
-  $("#scale").val(distorter.lens.scale);
-    $("#scale_label")[0].innerHTML = distorter.lens.scale;
-  $("#fovx").val(distorter.fov.x);
-  $("#fovy").val(distorter.fov.y);
+  function useHash(hashString) {
+    window.location.hash = hashString;
+    readHash();
+    setSliders();
+    updateDisplay();
+    distorter.run();
+  }
 
-  adjustLens();
+  function setSliders() {
+    $("#a").val(distorter.lens.a);
+      $("#a_label")[0].innerHTML = distorter.lens.a;
+    $("#b").val(distorter.lens.b);
+      $("#b_label")[0].innerHTML = distorter.lens.b;
+    $("#Fx").val(distorter.lens.Fx);
+      $("#Fx_label")[0].innerHTML = distorter.lens.Fx;
+    $("#Fy").val(distorter.lens.Fy);
+      $("#Fy_label")[0].innerHTML = distorter.lens.Fy;
+    $("#scale").val(distorter.lens.scale);
+      $("#scale_label")[0].innerHTML = distorter.lens.scale;
+    $("#fovx").val(distorter.fov.x);
+    $("#fovy").val(distorter.fov.y);
+  }
+
 
   // Drag & Drop behavior
 
@@ -110,9 +133,22 @@ jQuery(document).ready(function($) {
   $('#canvas').on('dragover', onDragOver, false);
   $('#canvas')[0].addEventListener('drop', onDrop, false);
 
-  setTimeout(function() {
+
+  window.onresize = resizeGrid;
+  setTimeout(resizeGrid, 0);
+
+  function resizeGrid() {
     $('#grid').height($('#canvas').height());
     $('#grid').width($('#canvas').width());
-  }, 0);
+  }
+
+  example = {
+    useHash:       useHash,
+    readHash:      readHash,
+    writeHash:     writeHash,
+    setSliders:    setSliders,
+    readSliders:   readSliders,  
+    updateDisplay: updateDisplay
+  }
 
 });
